@@ -1,4 +1,4 @@
-"""Build warnings.json (Met Office, South West England) and weather.json (Open-Meteo hourly rain, central Dartmoor).
+"""Build warnings.json (Met Office, South West England) and weather.json (Open-Meteo hourly rain and wind, central Dartmoor).
 
 The watch fetches Open-Meteo itself for its own position when the phone is connected; weather.json is a
 fallback. Met Office warnings come as RSS (XML), which the watch can't parse, so this job turns them into
@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 UA = {"User-Agent": "dartmoor-camp-tiles weather job"}
 RSS = "https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/sw"
 OM = ("https://api.open-meteo.com/v1/forecast?latitude=50.58&longitude=-3.96"
-      "&hourly=precipitation_probability,precipitation&forecast_hours=24&timezone=Europe%2FLondon")
+      "&hourly=precipitation_probability,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=mph&forecast_hours=24&timezone=Europe%2FLondon")
 
 
 def fetch(url):
@@ -43,7 +43,8 @@ def weather(out):
     try:
         h = json.loads(fetch(OM))["hourly"]
         res = dict(updated=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), place="central Dartmoor",
-                   time=h["time"], prob=h["precipitation_probability"], mm=h["precipitation"], source="Open-Meteo (CC BY 4.0)")
+                   time=h["time"], prob=h["precipitation_probability"], mm=h["precipitation"],
+                   wind_mph=h["wind_speed_10m"], gust_mph=h["wind_gusts_10m"], wind_from_deg=h["wind_direction_10m"], source="Open-Meteo (CC BY 4.0)")
     except Exception as e:
         res = dict(error=str(e)[:200])
     json.dump(res, open(out, "w"), separators=(",", ":"))
