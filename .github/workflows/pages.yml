@@ -1,0 +1,38 @@
+name: Publish tiles and firing times
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "15 5 * * *"   # daily, early morning UK time
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build site folder
+        run: |
+          mkdir -p site
+          cp -r tiles site/
+          cp README.md site/ 2>/dev/null || true
+          python3 tools/firing_times.py site/firing.json || echo '{"error":"firing times unavailable"}' > site/firing.json
+          cat site/firing.json | head -c 600; echo
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
