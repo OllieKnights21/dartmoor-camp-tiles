@@ -1,0 +1,8 @@
+<strings>
+    <string id="AppName">Dartmoor Camp</string>
+    <string id="PosFormatTitle">Position format</string>
+    <string id="PosGrid">OS grid ref</string>
+    <string id="PosDec">Lat/long (decimal)</string>
+    <string id="PosDM">Lat/long (deg, min)</string>
+    <string id="AlertsTitle">Vibrate alerts</string>
+</strings>

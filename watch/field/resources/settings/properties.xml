@@ -1,0 +1,4 @@
+<properties>
+    <property id="posFormat" type="number">0</property>
+    <property id="alerts" type="boolean">true</property>
+</properties>

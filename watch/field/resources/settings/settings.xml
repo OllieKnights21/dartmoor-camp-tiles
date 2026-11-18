@@ -1,0 +1,12 @@
+<settings>
+    <setting propertyKey="@Properties.posFormat" title="@Strings.PosFormatTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.PosGrid</listEntry>
+            <listEntry value="1">@Strings.PosDec</listEntry>
+            <listEntry value="2">@Strings.PosDM</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.alerts" title="@Strings.AlertsTitle">
+        <settingConfig type="boolean"/>
+    </setting>
+</settings>
