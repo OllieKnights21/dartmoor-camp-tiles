@@ -1,0 +1,7 @@
+<strings>
+    <string id="AppName">Dartmoor Map</string>
+    <string id="PosFormatTitle">Position format</string>
+    <string id="PosGrid">OS grid ref</string>
+    <string id="PosDec">Lat/long (decimal)</string>
+    <string id="PosDM">Lat/long (deg, min)</string>
+</strings>

@@ -32,6 +32,7 @@ jobs:
           python3 tools/firing_times.py site/firing.json || echo '{"error":"firing times unavailable"}' > site/firing.json
           cat site/firing.json | head -c 600; echo
           python3 tools/weather.py site || true
+          python3 tools/routes.py routes site/routes.json || echo '{"routes":[]}' > site/routes.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

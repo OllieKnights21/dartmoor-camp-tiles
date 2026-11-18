@@ -6,3 +6,6 @@
 Build (Windows, SDK 9.2.0):
 
     monkeyc -f field\monkey.jungle -d instinct3amoled50mm -o build\DartmoorCampField.prg -y <developer_key.der> -w
+- `app/` map app: picture-tile map (GitHub Pages tiles via phone), route + recorded track, rain, wind, conditions, firing times, sync, offline download.
+
+    monkeyc -f app\monkey.jungle -d instinct3amoled50mm -o build\DartmoorMap.prg -y <developer_key.der> -w
