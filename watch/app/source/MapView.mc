@@ -115,7 +115,7 @@ class MapView extends WatchUi.View {
 
     hidden function renderTiles(cx, cy, z) {
         if (_buf == null) {
-            var opts = { :width => _w, :height => _h, :palette => TileInfo.PALETTE };
+            var opts = { :width => _w, :height => _h };   // full colour: tiles won't draw into a palette buffer
             if (Graphics has :createBufferedBitmap) {
                 _buf = Graphics.createBufferedBitmap(opts).get();
             } else {
@@ -167,7 +167,7 @@ class MapView extends WatchUi.View {
     hidden function drawTrack(dc, x0, y0, z) {
         var t = $.gData.track;
         if (t.size() < 4) { return; }
-        var pts = [];
+        var pts = [] as Array;
         for (var i = 0; i < t.size(); i += 2) { pts.add(toScreen(t[i], t[i + 1], x0, y0, z)); }
         var d = $.gData;
         if (d.lat != null) { pts.add(toScreen(d.lat, d.lon, x0, y0, z)); }

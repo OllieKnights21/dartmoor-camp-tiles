@@ -119,7 +119,7 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :download) {
             WatchUi.pushView(new DownloadView(), new DownloadDelegate(), WatchUi.SLIDE_LEFT);
         } else if (id == :follow) {
-            d.follow = item.isEnabled();
+            d.follow = (item as WatchUi.ToggleMenuItem).isEnabled();
             if (d.follow && $.gMapView != null) { $.gMapView.recentre(); }
         } else if (id == :pos) {
             d.posFmt = (d.posFmt + 1) % 3;
@@ -144,8 +144,8 @@ class LayersDelegate extends WatchUi.Menu2InputDelegate {
     function initialize() { Menu2InputDelegate.initialize(); }
     function onSelect(item) {
         var id = item.getId();
-        if (id == :showRoute) { $.gData.showRoute = item.isEnabled(); }
-        else if (id == :showTrack) { $.gData.showTrack = item.isEnabled(); }
+        if (id == :showRoute) { $.gData.showRoute = (item as WatchUi.ToggleMenuItem).isEnabled(); }
+        else if (id == :showTrack) { $.gData.showTrack = (item as WatchUi.ToggleMenuItem).isEnabled(); }
     }
 }
 
