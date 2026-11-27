@@ -45,7 +45,7 @@ def main(out):
     if not hrefs: sys.exit("no firing-times document linked from " + PUB)
     doc = get(hrefs[0])
     p = Tables(); p.feed(doc["details"]["body"])
-    ranges, days = None, {}
+    ranges, days, prev = None, {}, None
     for row in p.rows:
         if row and row[0].lower() == "date":
             ranges = row[1:]; continue
@@ -54,9 +54,17 @@ def main(out):
             d = datetime.strptime(row[0], "%d %B %Y").date()
         except ValueError:
             continue
+        # Rows run in date order. Around New Year GOV.UK sometimes keeps the old
+        # year on January rows ("01 January 2026" in a Nov 2026 - Jan 2027 table),
+        # which stretched the output to a whole year of "???". Roll such dates on.
+        while prev and d < prev - timedelta(days=180):
+            d = d.replace(year=d.year + 1)
+        prev = d
         days[d] = "".join(code(c) for c in row[1:1 + len(ranges)])
     if not days: sys.exit("no rows parsed from " + hrefs[0])
     start, end = min(days), max(days)
+    if (end - start).days > 70:
+        sys.exit(f"implausible table span {start}..{end} in " + hrefs[0])
     seq, d = [], start
     while d <= end:
         seq.append(days.get(d, "?" * len(ranges))); d += timedelta(days=1)
